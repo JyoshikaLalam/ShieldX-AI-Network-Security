@@ -1,4 +1,4 @@
-# NetSecAI Project Timeline
+# ShieldX Project Timeline
 
 ## Phase 1: Problem Definition and Analysis (May 5-7)
 

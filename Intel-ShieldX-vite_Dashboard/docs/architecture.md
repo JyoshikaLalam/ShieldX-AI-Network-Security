@@ -1,8 +1,8 @@
-# NetSecAI System Architecture
+# ShieldX System Architecture
 
 ## Overview
 
-NetSecAI is a comprehensive network traffic analysis platform that combines real-time monitoring, machine learning-based classification, and interactive visualizations to provide insights into network behavior and security threats.
+ShieldX is a comprehensive network traffic analysis platform that combines real-time monitoring, machine learning-based classification, and interactive visualizations to provide insights into network behavior and security threats.
 
 ## Core Components
 

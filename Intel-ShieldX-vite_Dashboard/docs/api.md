@@ -1,4 +1,4 @@
-# NetSecAI API Documentation
+# ShieldX API Documentation
 
 ## Traffic Analysis API
 
