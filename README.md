@@ -116,7 +116,7 @@ This project uses industry-standard IDS datasets:
 
 **Models trained include:**
 
-* 🔍 Supervised: `Random Forest`, `SVM`, `Logistic Regression`
+* 🔍 `Random Forest`, `SVM`, `KNN`
 * ⚡ Anomaly Detection: `Isolation Forest`
 * 🧪 Metrics: Accuracy, Precision, Recall, ROC-AUC
 
@@ -192,8 +192,4 @@ We ❤️ contributions!
 
 ---
 
-**🔐 ShieldX-AI-Network-Security** brings together machine learning, network analysis, and web deployment to build a powerful, explainable, and scalable IDS system. Perfect for students, researchers, and cybersecurity enthusiasts!
-
----
-
-Let me know if you want a badge section (e.g., Python version, License, Forks/Stars) or a `LICENSE` file addition as well.
+**🔐 ShieldX-AI-Network-Security** brings together machine learning, network analysis, and web deployment to build a powerful, explainable, and scalable IDS system.
