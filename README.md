@@ -4,21 +4,6 @@ An AI-powered **Intrusion Detection System (IDS)** designed to enhance cybersecu
 
 ---
 
-## 🔍 Table of Contents
-
-1. [🌟 Features](#-features)
-2. [📁 Project Structure](#-project-structure)
-3. [⚙️ Installation & Setup](#-installation--setup)
-4. [🚀 Usage](#-usage)
-5. [📊 Datasets & Training](#-datasets--training)
-6. [🧠 Models & Notebooks](#-models--notebooks)
-7. [🤝 Contributing](#-contributing)
-8. [📫 Contact](#-contact)
-9. [📚 Further Reading](#-further-reading)
-10. [✅ Roadmap](#-what-to-improve)
-
----
-
 ## 🌟 Features
 
 * ✅ AI/ML-based threat detection with popular benchmark datasets
@@ -29,16 +14,40 @@ An AI-powered **Intrusion Detection System (IDS)** designed to enhance cybersecu
 
 ---
 
-## 📁 Project Structure
+## 📁 Repository Structure
 
-```plaintext
-ShieldX‑AI‑Network‑Security/
-├── data/                                  ← Network traffic datasets
-├── ShieldX_AIML_NetworkSecurity.ipynb     ← EDA, ML training, and evaluation
-├── ShieldX_Network_Traffic_Analysis.pdf   ← Generated report from analysis
-├── app.py                                 ← Flask web app
-├── requirements.txt                       ← Dependency file
-└── README.md                              ← Project documentation
+```
+ShieldX-AI-Network-Security/
+├── .streamlit/
+│   └── config.toml               # Streamlit UI settings
+│
+├── Intel-ShieldX-vite_Dashboard/  # Frontend dashboard
+│   ├── docs/                       # documentation
+│   │   ├── api.md
+│   │   ├── architecture.md
+│   │   └── project-timeline.md
+│   ├── src/
+│   │   ├── components/            # UI components (cards, tables, etc.)
+│   │   ├── pages/                 # Route-based views (Home, Monitor, Report)
+│   │   ├── types/                 # TypeScript type declarations
+│   │   ├── utils/                 # Helper functions
+│   │   ├── App.tsx                # Main React component
+│   │   ├── main.tsx               # Entry point
+│   │   ├── index.css              # Global styles
+│   │   └── vite-env.d.ts
+│   ├── index.html                 # App shell
+│   ├── package.json               # Frontend dependencies
+│   ├── tailwind.config.js         # Tailwind CSS config
+│   └── tsconfig.*.json            # TypeScript configs
+│
+├── data/
+│   └── [Dataset CSV files]        # CICIDS2017
+│
+├── app.py                         # Flask backend serving predictions (streamlit)
+├── ShieldX_AIML_NetworkSecurity.ipynb  # Jupyter notebook with ML pipeline
+├── ShieldX_Network_Traffic_Analysis.pdf # PDF summary of analysis
+├── requirements.txt               # Backend dependencies
+└── README.md                      # Project documentation
 ```
 
 ---
@@ -52,144 +61,141 @@ git clone https://github.com/JyoshikaLalam/ShieldX-AI-Network-Security.git
 cd ShieldX-AI-Network-Security
 ```
 
-### 2. Create a virtual environment
+### 2. Create a virtual environment and activate
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+python -m venv venv
+source venv/bin/activate   # On Windows: venv\Scripts\activate
 ```
 
-### 3. Install dependencies
+### 3. Install Python dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Place your dataset in the `data/` folder
-
-Use benchmark datasets like `CICIDS`, `KDD99`, `UNSW-NB15`, or your own.
-
----
-
-## 🚀 Usage
-
-### 🧪 1. Analyze & Train
-
-Launch the Jupyter notebook to explore data and train models:
+### 4. Run Flask API
 
 ```bash
-jupyter notebook ShieldX_AIML_NetworkSecurity.ipynb
+python -m streamlit run app.py
 ```
 
-### 📄 2. View PDF Report
-
-Open `ShieldX_Network_Traffic_Analysis.pdf` to view charts, metrics, and anomaly insights.
-
-### 🌐 3. Run Web App for Predictions
-
-Start the Flask app:
+### 5. Launch Frontend (optional if using Vite dashboard)
 
 ```bash
-python app.py
+cd Intel-ShieldX-vite_Dashboard
+npm install
+npm run dev
 ```
 
-Then navigate to: [http://127.0.0.1:5000](http://127.0.0.1:5000)
-Upload a `.csv` file → Get predictions + threat classification.
+---
+
+## 🔍 Core Files Explained
+
+### 🧠 `ShieldX_AIML_NetworkSecurity.ipynb`
+
+This notebook performs the full ML workflow:
+
+* **Data ingestion**: Reads raw network traffic data from CSV files.
+* **Preprocessing**: Cleans nulls, encodes categorical features, scales numerics.
+* **EDA**:
+
+  * Visualizes protocol and attack distributions.
+  * Correlation matrix.
+  * Anomaly heatmaps (optional).
+* **Model training**:
+
+  * `RandomForestClassifier`, `SVM`, `KNN`
+  * Compares their performance using confusion matrix, accuracy, precision, recall.
 
 ---
 
-## 📊 Datasets & Training
+### 📑 `ShieldX_Network_Traffic_Analysis.pdf`
 
-This project uses industry-standard IDS datasets:
+A printable, concise version of the notebook’s outputs:
 
-* CICIDS2017
-* NSL-KDD
-* KDD Cup 1999
-* UNSW-NB15
-
-**Preprocessing steps:**
-
-* Handle null values
-* Encode categorical features
-* Scale numeric features
-* Train/test split
-
-**Models trained include:**
-
-* 🔍 `Random Forest`, `SVM`, `KNN`
-* ⚡ Anomaly Detection: `Isolation Forest`
-* 🧪 Metrics: Accuracy, Precision, Recall, ROC-AUC
+* Charts of class balance, feature correlation
+* Summary of metrics from trained classifiers
+* Notes on feature importance (e.g., `flow_duration`, `flag`, `src_bytes`)
+* Recommendation of best-performing model (likely Random Forest)
 
 ---
 
-## 🧠 Models & Notebooks
+### 🌐 `app.py`
 
-### 📘 Notebook: `ShieldX_AIML_NetworkSecurity.ipynb`
+* A simple **Flask app** that:
 
-* EDA of traffic flow features
-* Training supervised and unsupervised models
-* Visualizing anomalies and clusters
-* Confusion matrices, AUC plots, classification reports
-* Model serialization (`.pkl`)
+  * Loads the trained model.
+  * Accepts uploaded `.csv` files with unseen network traffic.
+  * Returns predictions (malicious or benign).
+* Integrated with frontend for real-time inference.
 
-### 📝 Report: `ShieldX_Network_Traffic_Analysis.pdf`
+**Routes:**
 
-* Executive summary
-* Visual breakdowns of attacks
-* Risk score and metrics per class
-
----
-
-## 🤝 Contributing
-
-We ❤️ contributions!
-
-### Steps:
-
-1. Fork the repository
-2. Create a branch (`git checkout -b feature/my-feature`)
-3. Commit your changes (`git commit -m "Added XYZ feature"`)
-4. Push (`git push origin feature/my-feature`)
-5. Create a Pull Request
-
-### You can help improve:
-
-* 📊 Additional datasets or formats
-* 🚨 Real-time threat alert integrations
-* 🎨 UI/UX and frontend dashboard
-* 📈 Advanced ML model support
-* 📜 Documentation
+```python
+@app.route('/', methods=['GET'])           # Homepage
+@app.route('/predict', methods=['POST'])   # Accepts CSV upload, returns results
+```
 
 ---
 
-## 📫 Contact
+### 💻 `Intel-ShieldX-vite_Dashboard/`
 
-**Jyoshika Lalam**
-📧 [jyoshika.lalam@gmail.com](mailto:jyoshika.lalam@gmail.com)
-🔗 GitHub: [@JyoshikaLalam](https://github.com/JyoshikaLalam)
+* Built with **Vite + React + TypeScript + TailwindCSS**
+* Pages include:
 
----
+  * **Home**: Overview of system capabilities
+  * **Live Monitor**: Real-time predictions (pending integration)
+  * **Reports**: Shows graphs and historical data
 
-## 📚 Further Reading
+#### Notable Files:
 
-* [Intrusion Detection Systems (Wikipedia)](https://en.wikipedia.org/wiki/Intrusion_detection_system)
-* [CICIDS2017 Dataset Overview](https://www.unb.ca/cic/datasets/ids-2017.html)
-* [scikit-learn Documentation](https://scikit-learn.org/stable/)
-* [Flask Web Framework](https://flask.palletsprojects.com/)
-* [ML for Security (IEEE)](https://ieeexplore.ieee.org/document/)
-
----
-
-## ✅ What to Improve
-
-📌 Future enhancements and community contributions welcome:
-
-* [ ] `predict.py` — CLI prediction script
-* [ ] Dockerize the entire application
-* [ ] Real-time streaming data support (Kafka, socket APIs)
-* [ ] Role-based access or user authentication
-* [ ] Deployment-ready structure (e.g., Gunicorn, Nginx, Heroku, AWS)
+* `docs/api.md`: API documentation for frontend/backend interaction
+* `docs/architecture.md`: System design overview
+* `project-timeline.md`: Development schedule or milestones
 
 ---
 
-**🔐 ShieldX-AI-Network-Security** brings together machine learning, network analysis, and web deployment to build a powerful, explainable, and scalable IDS system.
+## 📊 ML Models Used
+
+| Model            | Description                    | Use Case               |
+| ---------------- | ------------------------------ | ---------------------- |
+| Random Forest    | Ensemble of decision trees     | High-accuracy baseline |
+| SVM              | Margin-based classifier        | Good for binary splits |
+| KNN              | Instance-based classifier      | Small-scale testing    |
+| Ensemble Model   | Anomaly detection              | Intrusion detection    |
+
+**Evaluation Metrics**:
+
+* Accuracy
+* Precision / Recall
+* F1-Score
+* ROC-AUC
+* Confusion Matrix
+
+---
+
+## 📈 Example Output
+
+* Upload a `.csv` of logs like:
+
+  ```
+  duration,src_bytes,dst_bytes,protocol_type,flag,...
+  0.3,491,0,tcp,SF,...
+  ```
+* Get predictions:
+
+  ```
+  0: Normal
+  1: Attack
+  ```
+
+---
+
+## 🧩 Future Enhancements
+
+* 🔲 Add Deep Learning-based classifiers
+* 🔲 Streamlit/Flask dashboard integration
+* 🔲 Live packet sniffing (Wireshark/PyShark)
+* 🔲 Docker support for full deployment
+* 🔲 Integrate Kafka for live data ingestion
